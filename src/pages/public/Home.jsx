@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, UserRound, Rocket, Moon, Sun } from "lucide-react";
+import { UserRound, Rocket } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import SpaceBackground from "../../components/SpaceBackground";
-import Logo from "../../components/Logo";
+import AppNavbar from "../../components/AppNavbar";
 
 export default function Home() {
   const [session, setSession] = useState(null);
@@ -25,12 +25,8 @@ export default function Home() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, currentSession) => {
       setSession(currentSession);
-
-      if (currentSession?.user) {
-        loadProfile(currentSession.user.id);
-      } else {
-        setProfile(null);
-      }
+      if (currentSession?.user) loadProfile(currentSession.user.id);
+      else setProfile(null);
     });
 
     return () => subscription.unsubscribe();
@@ -73,86 +69,15 @@ export default function Home() {
         <SpaceBackground />
       )}
 
-      <header
-        className={
-          isLight
-            ? "relative z-10 border-b border-slate-200 bg-white/90 backdrop-blur-xl"
-            : "relative z-10 border-b border-white/10 bg-[#020617]/80 backdrop-blur-xl"
-        }
-      >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Logo />
+      <AppNavbar
+        isLight={isLight}
+        setTheme={setTheme}
+        session={session}
+        displayName={displayName}
+        variant="public"
+      />
 
-          <nav className="flex items-center gap-3">
-            <Link
-              to="/explore"
-              className={
-                isLight
-                  ? "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-950"
-                  : "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white"
-              }
-            >
-              <Search size={16} />
-              Explore
-            </Link>
-
-            <button
-              onClick={() => setTheme(isLight ? "dark" : "light")}
-              className={
-                isLight
-                  ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm hover:bg-slate-100"
-                  : "rounded-full border border-white/10 bg-white/10 p-2 text-white hover:bg-white/15"
-              }
-              title="Toggle theme"
-            >
-              {isLight ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
-
-            {session ? (
-              <>
-                <span
-                  className={
-                    isLight
-                      ? "hidden text-sm text-slate-700 md:block"
-                      : "hidden text-sm text-slate-300 md:block"
-                  }
-                >
-                  Welcome, {displayName}
-                </span>
-
-                <Link
-                  to="/dashboard"
-                  className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20"
-                >
-                  Dashboard
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  className={
-                    isLight
-                      ? "text-sm text-slate-700 hover:text-slate-950"
-                      : "text-sm text-slate-300 hover:text-white"
-                  }
-                >
-                  Login
-                </Link>
-
-                <Link
-                  to="/signup"
-                  className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20"
-                >
-                  Create Profile
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
-      </header>
-
-      <main className="relative z-10 mx-auto max-w-7xl px-6 py-24">
+      <main className="relative z-10 mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
         <section className="max-w-4xl">
           <p className="flex items-center gap-2 text-sm font-medium text-violet-500">
             <Rocket size={16} />
@@ -162,8 +87,8 @@ export default function Home() {
           <h1
             className={
               isLight
-                ? "mt-5 text-5xl font-bold tracking-tight text-slate-950 md:text-7xl"
-                : "mt-5 text-5xl font-bold tracking-tight text-white md:text-7xl"
+                ? "mt-5 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl md:text-7xl"
+                : "mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-7xl"
             }
           >
             Build a public record of your technical growth.
@@ -172,8 +97,8 @@ export default function Home() {
           <p
             className={
               isLight
-                ? "mt-6 max-w-2xl text-lg text-slate-700"
-                : "mt-6 max-w-2xl text-lg text-slate-400"
+                ? "mt-6 max-w-2xl text-base text-slate-700 sm:text-lg"
+                : "mt-6 max-w-2xl text-base text-slate-400 sm:text-lg"
             }
           >
             DevLedger helps developers showcase projects, document learning logs,
@@ -181,13 +106,13 @@ export default function Home() {
             from scratch.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               to="/explore"
               className={
                 isLight
-                  ? "rounded-full border border-slate-200 bg-white px-6 py-3 font-medium text-slate-800 shadow-sm hover:bg-slate-100"
-                  : "rounded-full border border-white/10 bg-white/10 px-6 py-3 font-medium text-white hover:bg-white/15"
+                  ? "w-full rounded-full border border-slate-200 bg-white px-6 py-3 text-center font-medium text-slate-800 shadow-sm hover:bg-slate-100 sm:w-auto"
+                  : "w-full rounded-full border border-white/10 bg-white/10 px-6 py-3 text-center font-medium text-white hover:bg-white/15 sm:w-auto"
               }
             >
               Explore Developers
@@ -195,7 +120,7 @@ export default function Home() {
 
             <Link
               to={session ? "/dashboard/profile" : "/signup"}
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-500/20"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-500/20 sm:w-auto"
             >
               <UserRound size={18} />
               {session ? "View Your Profile" : "Create Your Profile"}

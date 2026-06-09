@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Search,
-  UserRound,
-  GraduationCap,
-  Sparkles,
-  Moon,
-  Sun,
-} from "lucide-react";
+import { Search, UserRound, GraduationCap, Sparkles } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import SpaceBackground from "../../components/SpaceBackground";
-import Logo from "../../components/Logo";
-
-<Logo />
+import AppNavbar from "../../components/AppNavbar";
 
 export default function Explore() {
   const [profiles, setProfiles] = useState([]);
@@ -54,7 +45,7 @@ export default function Explore() {
     <div
       className={`${
         isLight ? "theme-light" : "theme-dark"
-      } app-bg relative min-h-screen overflow-hidden px-6 py-10`}
+      } app-bg relative min-h-screen overflow-hidden`}
     >
       {isLight ? (
         <div className="light-aurora pointer-events-none" />
@@ -62,41 +53,10 @@ export default function Explore() {
         <SpaceBackground />
       )}
 
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className={
-              isLight
-                ? "text-sm font-medium text-slate-700 hover:text-slate-950"
-                : "text-sm text-violet-300 hover:text-violet-200"
-            }
-          >
-            ← Home
-          </Link>
+      <AppNavbar isLight={isLight} setTheme={setTheme} variant="public" />
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setTheme(isLight ? "dark" : "light")}
-              className={
-                isLight
-                  ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm hover:bg-slate-100"
-                  : "rounded-full border border-white/10 bg-white/10 p-2 text-white hover:bg-white/15"
-              }
-            >
-              {isLight ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
-
-            <Link
-              to="/signup"
-              className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20"
-            >
-              Create Profile
-            </Link>
-          </div>
-        </div>
-
-        <div className="mt-10">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 py-10 md:px-6">
+        <div>
           <p className="flex items-center gap-2 text-sm font-medium text-violet-500">
             <Sparkles size={16} />
             Public Developer Network
@@ -105,8 +65,8 @@ export default function Explore() {
           <h1
             className={
               isLight
-                ? "mt-3 text-4xl font-bold text-slate-950"
-                : "mt-3 text-4xl font-bold text-white"
+                ? "mt-3 text-3xl font-bold text-slate-950 sm:text-4xl"
+                : "mt-3 text-3xl font-bold text-white sm:text-4xl"
             }
           >
             Explore Developers
@@ -115,8 +75,8 @@ export default function Explore() {
           <p
             className={
               isLight
-                ? "mt-3 max-w-2xl text-slate-700"
-                : "mt-3 max-w-2xl text-slate-400"
+                ? "mt-3 max-w-2xl text-sm text-slate-700 sm:text-base"
+                : "mt-3 max-w-2xl text-sm text-slate-400 sm:text-base"
             }
           >
             Search public DevLedger profiles by name, username, skill, degree,
@@ -142,7 +102,7 @@ export default function Explore() {
           />
         </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProfiles
             .filter((profile) => profile.username)
             .map((profile) => (
@@ -153,8 +113,8 @@ export default function Explore() {
                 )}`}
                 className={
                   isLight
-                    ? "rounded-3xl border border-slate-200 bg-white p-6 text-slate-950 shadow-xl shadow-slate-200/70 transition-all duration-300 hover:-translate-y-1 hover:border-violet-300"
-                    : "rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/40 hover:bg-white/[0.06]"
+                    ? "rounded-3xl border border-slate-200 bg-white p-5 text-slate-950 shadow-xl shadow-slate-200/70 transition-all duration-300 hover:-translate-y-1 hover:border-violet-300 sm:p-6"
+                    : "rounded-3xl border border-white/10 bg-white/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/40 hover:bg-white/[0.06] sm:p-6"
                 }
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-600">
@@ -168,8 +128,8 @@ export default function Explore() {
                 <h2
                   className={
                     isLight
-                      ? "mt-2 text-xl font-bold text-slate-950"
-                      : "mt-2 text-xl font-bold text-white"
+                      ? "mt-2 text-lg font-bold text-slate-950 sm:text-xl"
+                      : "mt-2 text-lg font-bold text-white sm:text-xl"
                   }
                 >
                   {profile.full_name || "Unnamed Developer"}
@@ -215,26 +175,7 @@ export default function Explore() {
               </Link>
             ))}
         </div>
-
-        {filteredProfiles.length === 0 && (
-          <div
-            className={
-              isLight
-                ? "mt-10 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-800"
-                : "mt-10 rounded-3xl border border-dashed border-white/10 bg-white/[0.03] p-8 text-center"
-            }
-          >
-            <h2 className="text-xl font-bold">No developers found</h2>
-            <p
-              className={
-                isLight ? "mt-2 text-slate-600" : "mt-2 text-slate-400"
-              }
-            >
-              Try searching by another name, skill, or username.
-            </p>
-          </div>
-        )}
-      </div>
+      </main>
     </div>
   );
 }

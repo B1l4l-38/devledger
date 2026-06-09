@@ -29,28 +29,36 @@ export default function AppNavbar({
   const navClass = ({ isActive }) =>
     `flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
       isActive
-        ? "bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 text-white"
+        ? "bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 text-white shadow-lg shadow-violet-500/20"
         : isLight
         ? "text-slate-700 hover:bg-white hover:text-slate-950"
         : "text-slate-300 hover:bg-white/10 hover:text-white"
     }`;
 
+  const publicLinkClass = isLight
+    ? "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+    : "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white";
+
   const dashboardLinks = (
     <>
-      <NavLink to="/dashboard" end className={navClass}>
+      <NavLink to="/dashboard" end className={navClass} onClick={() => setMenuOpen(false)}>
         <Home size={16} /> Home
       </NavLink>
-      <NavLink to="/dashboard/projects" className={navClass}>
+
+      <NavLink to="/dashboard/projects" className={navClass} onClick={() => setMenuOpen(false)}>
         <FolderKanban size={16} /> Projects
       </NavLink>
-      <NavLink to="/dashboard/logs" className={navClass}>
+
+      <NavLink to="/dashboard/logs" className={navClass} onClick={() => setMenuOpen(false)}>
         <BookOpen size={16} /> Logs
       </NavLink>
-      <NavLink to="/dashboard/profile" className={navClass}>
+
+      <NavLink to="/dashboard/profile" className={navClass} onClick={() => setMenuOpen(false)}>
         <User size={16} /> Profile
       </NavLink>
+
       {isAdmin && (
-        <NavLink to="/admin/subscribers" className={navClass}>
+        <NavLink to="/admin/subscribers" className={navClass} onClick={() => setMenuOpen(false)}>
           <Shield size={16} /> Admin
         </NavLink>
       )}
@@ -59,14 +67,7 @@ export default function AppNavbar({
 
   const publicLinks = (
     <>
-      <Link
-        to="/explore"
-        className={
-          isLight
-            ? "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
-            : "flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white"
-        }
-      >
+      <Link to="/explore" className={publicLinkClass} onClick={() => setMenuOpen(false)}>
         <Search size={16} />
         Explore
       </Link>
@@ -74,7 +75,8 @@ export default function AppNavbar({
       {session ? (
         <Link
           to="/dashboard"
-          className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white"
+          onClick={() => setMenuOpen(false)}
+          className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20"
         >
           Dashboard
         </Link>
@@ -82,10 +84,11 @@ export default function AppNavbar({
         <>
           <Link
             to="/login"
+            onClick={() => setMenuOpen(false)}
             className={
               isLight
-                ? "text-sm text-slate-700 hover:text-slate-950"
-                : "text-sm text-slate-300 hover:text-white"
+                ? "rounded-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                : "rounded-full px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white"
             }
           >
             Login
@@ -93,7 +96,8 @@ export default function AppNavbar({
 
           <Link
             to="/signup"
-            className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white"
+            onClick={() => setMenuOpen(false)}
+            className="rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20"
           >
             Create
           </Link>
@@ -119,13 +123,7 @@ export default function AppNavbar({
 
         <div className="hidden items-center gap-3 lg:flex">
           {variant === "public" && session && displayName && (
-            <span
-              className={
-                isLight
-                  ? "text-sm text-slate-700"
-                  : "text-sm text-slate-300"
-              }
-            >
+            <span className={isLight ? "text-sm text-slate-700" : "text-sm text-slate-300"}>
               Welcome, {displayName}
             </span>
           )}
@@ -137,6 +135,7 @@ export default function AppNavbar({
                 ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm hover:bg-slate-100"
                 : "rounded-full border border-white/10 bg-white/10 p-2 text-white hover:bg-white/15"
             }
+            title="Toggle theme"
           >
             {isLight ? <Moon size={18} /> : <Sun size={18} />}
           </button>
@@ -146,8 +145,8 @@ export default function AppNavbar({
               onClick={onLogout}
               className={
                 isLight
-                  ? "flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700"
-                  : "flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white"
+                  ? "flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-100"
+                  : "flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15"
               }
             >
               <LogOut size={16} /> Logout
@@ -160,7 +159,7 @@ export default function AppNavbar({
             onClick={() => setTheme(isLight ? "dark" : "light")}
             className={
               isLight
-                ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800"
+                ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm"
                 : "rounded-full border border-white/10 bg-white/10 p-2 text-white"
             }
           >
@@ -171,7 +170,7 @@ export default function AppNavbar({
             onClick={() => setMenuOpen(!menuOpen)}
             className={
               isLight
-                ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800"
+                ? "rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm"
                 : "rounded-full border border-white/10 bg-white/10 p-2 text-white"
             }
           >
@@ -184,8 +183,8 @@ export default function AppNavbar({
         <div
           className={
             isLight
-              ? "border-t border-slate-200 bg-white/95 px-4 py-4 lg:hidden"
-              : "border-t border-white/10 bg-[#020617]/95 px-4 py-4 lg:hidden"
+              ? "border-t border-slate-200 bg-white/95 px-4 py-4 backdrop-blur-xl lg:hidden"
+              : "border-t border-white/10 bg-[#020617]/95 px-4 py-4 backdrop-blur-xl lg:hidden"
           }
         >
           <nav className="grid gap-2">
