@@ -382,3 +382,36 @@ a {
 .theme-light .bg-white\/15 {
   background: rgba(15, 23, 42, 0.12) !important;
 }
+
+/* Mobile responsiveness */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  input,
+  textarea,
+  select,
+  button {
+    width: auto;
+  }
+}
+
+.mobile-card {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .mobile-card {
+    padding: 1.5rem;
+  }
+}
