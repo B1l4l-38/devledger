@@ -36,30 +36,27 @@ export default function Login() {
           Login to manage your developer ledger.
         </p>
 
-        <form onSubmit={handleLogin} className="mt-8 space-y-5">
-  <input
-    type="email"
-    placeholder="Email address"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-white placeholder:text-slate-500"
-  />
+        <form onSubmit={handleLogin} className="mt-8 space-y-4">
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder:text-slate-500"
+          />
 
-  <input
-    type="password"
-    placeholder="Password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-white placeholder:text-slate-500"
-  />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder:text-slate-500"
+          />
 
-  <button
-    type="submit"
-    className="w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 px-5 py-4 font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:-translate-y-0.5"
-  >
-    Login
-  </button>
-</form>
+          <button className="w-full rounded-2xl bg-gradient-to-r from-violet-500 to-cyan-400 px-4 py-3 font-semibold text-white">
+            Login
+          </button>
+        </form>
 
         {message && <p className="mt-4 text-sm text-red-300">{message}</p>}
 

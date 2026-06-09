@@ -390,21 +390,7 @@ img {
   height: auto;
 }
 
-input,
-textarea,
-select,
-button {
-  width: 100%;
-}
 
-@media (min-width: 640px) {
-  input,
-  textarea,
-  select,
-  button {
-    width: auto;
-  }
-}
 
 .mobile-card {
   padding: 1rem;
